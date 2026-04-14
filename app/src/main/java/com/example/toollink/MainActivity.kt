@@ -51,8 +51,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -72,7 +75,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ToolLinkTheme {
-                ToolLinkApp()
+                // For Mock Up purposes, we skip Firebase Auth for now
+                var isAuthenticated by remember { mutableStateOf(false) }
+
+                if (isAuthenticated) {
+                    ToolLinkApp()
+                } else {
+                    AuthScreen(onAuthSuccess = { isAuthenticated = true })
+                }
             }
         }
     }
@@ -198,12 +208,20 @@ fun ToolLinkApp() {
 
 @Composable
 fun CategoryDetailScreen(category: Category) {
+    val repository = remember { EquipmentRepository() }
+    val equipmentList = remember { mutableStateListOf<Equipment>() }
+    
+    LaunchedEffect(category.label) {
+        equipmentList.clear()
+        equipmentList.addAll(repository.getEquipmentByCategory(category.label))
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        // Hero Section with Gradient
+        // Hero Section
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -258,13 +276,8 @@ fun CategoryDetailScreen(category: Category) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Equipment Categories",
+                text = "Available Equipment",
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
-            )
-            Text(
-                text = "View All",
-                style = MaterialTheme.typography.labelMedium,
-                color = category.themeColor
             )
         }
 
@@ -274,19 +287,19 @@ fun CategoryDetailScreen(category: Category) {
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(category.subCategories) { sub ->
-                SubCategoryCard(sub, category.themeColor)
+            items(equipmentList) { equipment ->
+                EquipmentCard(equipment, category.themeColor)
             }
         }
     }
 }
 
 @Composable
-fun SubCategoryCard(name: String, color: Color) {
+fun EquipmentCard(equipment: Equipment, color: Color) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(1.1f),
+            .aspectRatio(0.9f),
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
@@ -299,36 +312,47 @@ fun SubCategoryCard(name: String, color: Color) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Surface(
-                color = color.copy(alpha = 0.1f),
-                shape = RoundedCornerShape(12.dp),
-                modifier = Modifier.size(36.dp)
-            ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Icon(
-                        imageVector = Icons.Default.ChevronRight,
-                        contentDescription = null,
-                        tint = color,
-                        modifier = Modifier.size(20.dp)
-                    )
+            Column {
+                Surface(
+                    color = color.copy(alpha = 0.1f),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier.size(36.dp)
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            imageVector = Icons.Default.ChevronRight,
+                            contentDescription = null,
+                            tint = color,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
                 }
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = equipment.name,
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                    maxLines = 1
+                )
+                Text(
+                    text = equipment.subCategory,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
-            Text(
-                text = name,
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 15.sp
-                ),
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "$\${equipment.pricePerDay}/day",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = color
+                    )
+                )
+            }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ToolLinkAppPreview() {
-    ToolLinkTheme {
-        ToolLinkApp()
     }
 }
