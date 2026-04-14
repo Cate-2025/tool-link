@@ -68,6 +68,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.toollink.ui.theme.ToolLinkTheme
+import java.text.NumberFormat
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,7 +77,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ToolLinkTheme {
-                // For Mock Up purposes, we skip Firebase Auth for now
                 var isAuthenticated by remember { mutableStateOf(false) }
 
                 if (isAuthenticated) {
@@ -148,7 +149,7 @@ fun ToolLinkApp() {
                     )
                 },
                 actions = {
-                    IconButton(onClick = { /* TODO: Search logic */ }) {
+                    IconButton(onClick = { /* TODO: Search */ }) {
                         Icon(Icons.Default.Search, contentDescription = "Search")
                     }
                 },
@@ -296,10 +297,13 @@ fun CategoryDetailScreen(category: Category) {
 
 @Composable
 fun EquipmentCard(equipment: Equipment, color: Color) {
+    val format = NumberFormat.getCurrencyInstance(Locale("en", "UG"))
+    val formattedPrice = "UGX " + NumberFormat.getNumberInstance(Locale.US).format(equipment.pricePerDay)
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(0.9f),
+            .aspectRatio(0.85f),
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
@@ -331,7 +335,8 @@ fun EquipmentCard(equipment: Equipment, color: Color) {
                 Text(
                     text = equipment.name,
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    maxLines = 1
+                    maxLines = 2,
+                    lineHeight = 18.sp
                 )
                 Text(
                     text = equipment.subCategory,
@@ -340,17 +345,18 @@ fun EquipmentCard(equipment: Equipment, color: Color) {
                 )
             }
             
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            Column {
                 Text(
-                    text = "$\${equipment.pricePerDay}/day",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.Bold,
+                    text = formattedPrice,
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontWeight = FontWeight.Black,
                         color = color
                     )
+                )
+                Text(
+                    text = "per day",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
