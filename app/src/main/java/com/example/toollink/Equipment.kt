@@ -9,5 +9,6 @@ data class Equipment(
     val pricePerDay: Double = 0.0,
     val ownerId: String = "",
     val imageUrl: String = "",
+    val location: String = "",
     val isAvailable: Boolean = true
 )

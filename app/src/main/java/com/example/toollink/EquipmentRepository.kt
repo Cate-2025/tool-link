@@ -3,7 +3,6 @@ package com.example.toollink
 import kotlinx.coroutines.delay
 
 class EquipmentRepository {
-    // Local mock data with UGX prices and expanded inventory
     private val mockEquipment = mutableListOf(
         // Agriculture
         Equipment(
@@ -13,7 +12,8 @@ class EquipmentRepository {
             subCategory = "Tractors",
             description = "50 HP tractor, perfect for medium scale farming and haulage.",
             pricePerDay = 150000.0,
-            imageUrl = "tractor_url"
+            location = "Kampala",
+            imageUrl = "https://images.unsplash.com/photo-1594913785162-e6785b426cb9?auto=format&fit=crop&q=80&w=400"
         ),
         Equipment(
             id = "2",
@@ -22,7 +22,8 @@ class EquipmentRepository {
             subCategory = "Ploughs",
             description = "3-disc plough for tough soil preparation.",
             pricePerDay = 45000.0,
-            imageUrl = "plough_url"
+            location = "Mbarara",
+            imageUrl = "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&q=80&w=400"
         ),
         Equipment(
             id = "3",
@@ -31,7 +32,8 @@ class EquipmentRepository {
             subCategory = "Irrigation",
             description = "High-flow petrol pump for farm irrigation.",
             pricePerDay = 35000.0,
-            imageUrl = "pump_url"
+            location = "Gulu",
+            imageUrl = "https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&q=80&w=400"
         ),
         Equipment(
             id = "4",
@@ -40,16 +42,8 @@ class EquipmentRepository {
             subCategory = "Sprayers",
             description = "20L manual sprayer for pest control.",
             pricePerDay = 15000.0,
-            imageUrl = "sprayer_url"
-        ),
-        Equipment(
-            id = "5",
-            name = "Combine Harvester",
-            category = "Agriculture",
-            subCategory = "Harvesters",
-            description = "Efficient harvester for maize and rice.",
-            pricePerDay = 500000.0,
-            imageUrl = "harvester_url"
+            location = "Jinja",
+            imageUrl = "https://images.unsplash.com/photo-1590682680695-43b964a3ae17?auto=format&fit=crop&q=80&w=400"
         ),
 
         // Construction
@@ -60,7 +54,8 @@ class EquipmentRepository {
             subCategory = "Excavators",
             description = "Reliable excavator for digging and lifting projects.",
             pricePerDay = 450000.0,
-            imageUrl = "excavator_url"
+            location = "Kampala",
+            imageUrl = "https://images.unsplash.com/photo-1579412691511-27468b7ca28a?auto=format&fit=crop&q=80&w=400"
         ),
         Equipment(
             id = "7",
@@ -69,16 +64,8 @@ class EquipmentRepository {
             subCategory = "Concrete Mixers",
             description = "Petrol powered mixer for construction sites.",
             pricePerDay = 85000.0,
-            imageUrl = "mixer_url"
-        ),
-        Equipment(
-            id = "8",
-            name = "Scaffolding Set",
-            category = "Construction",
-            subCategory = "Scaffolding",
-            description = "Complete set for high-reach work.",
-            pricePerDay = 25000.0,
-            imageUrl = "scaffolding_url"
+            location = "Entebbe",
+            imageUrl = "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=400"
         ),
 
         // Transport
@@ -89,7 +76,8 @@ class EquipmentRepository {
             subCategory = "Pickups",
             description = "Versatile pickup for moving community goods.",
             pricePerDay = 125000.0,
-            imageUrl = "pickup_url"
+            location = "Kampala",
+            imageUrl = "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=400"
         ),
         Equipment(
             id = "10",
@@ -98,16 +86,8 @@ class EquipmentRepository {
             subCategory = "Motorcycles",
             description = "Rugged motorcycle for quick deliveries.",
             pricePerDay = 25000.0,
-            imageUrl = "motorcycle_url"
-        ),
-        Equipment(
-            id = "11",
-            name = "Cold Storage Van",
-            category = "Transport",
-            subCategory = "Vans",
-            description = "Refrigerated van for perishable goods.",
-            pricePerDay = 200000.0,
-            imageUrl = "van_url"
+            location = "Masaka",
+            imageUrl = "https://images.unsplash.com/photo-1558981403-c5f91cbba527?auto=format&fit=crop&q=80&w=400"
         ),
 
         // Community
@@ -118,7 +98,8 @@ class EquipmentRepository {
             subCategory = "Sound",
             description = "Complete PA system with 2 speakers and mixer.",
             pricePerDay = 95000.0,
-            imageUrl = "sound_url"
+            location = "Mukono",
+            imageUrl = "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=400"
         ),
         Equipment(
             id = "13",
@@ -127,16 +108,8 @@ class EquipmentRepository {
             subCategory = "Tents",
             description = "Large 100-seater tent for gatherings.",
             pricePerDay = 65000.0,
-            imageUrl = "tent_url"
-        ),
-        Equipment(
-            id = "14",
-            name = "Solar Home Kit",
-            category = "Community",
-            subCategory = "Solar Kits",
-            description = "Lighting and charging solution for rural homes.",
-            pricePerDay = 10000.0,
-            imageUrl = "solar_url"
+            location = "Iganga",
+            imageUrl = "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=400"
         ),
 
         // Livestock
@@ -147,7 +120,8 @@ class EquipmentRepository {
             subCategory = "Milk Coolers",
             description = "500L cooling tank for dairy preservation.",
             pricePerDay = 150000.0,
-            imageUrl = "cooler_url"
+            location = "Mbarara",
+            imageUrl = "https://images.unsplash.com/photo-1559591937-e6b76852b78d?auto=format&fit=crop&q=80&w=400"
         ),
         Equipment(
             id = "16",
@@ -156,7 +130,8 @@ class EquipmentRepository {
             subCategory = "Choppers",
             description = "Efficient silage and fodder preparation machine.",
             pricePerDay = 45000.0,
-            imageUrl = "chopper_url"
+            location = "Bushenyi",
+            imageUrl = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=400"
         ),
         Equipment(
             id = "17",
@@ -165,22 +140,36 @@ class EquipmentRepository {
             subCategory = "Vet Kits",
             description = "Standard emergency equipment for livestock care.",
             pricePerDay = 20000.0,
-            imageUrl = "vet_url"
+            location = "Fort Portal",
+            imageUrl = "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&q=80&w=400"
         )
     )
 
     suspend fun getAllEquipment(): List<Equipment> {
-        delay(500) // Simulate network delay
+        delay(300)
         return mockEquipment
     }
 
     suspend fun getEquipmentByCategory(category: String): List<Equipment> {
-        delay(500) // Simulate network delay
+        delay(300)
         return mockEquipment.filter { it.category == category }
+    }
+    
+    suspend fun filterEquipment(
+        category: String,
+        location: String? = null,
+        maxPrice: Double? = null
+    ): List<Equipment> {
+        delay(300)
+        return mockEquipment.filter { 
+            it.category == category &&
+            (location == null || it.location.contains(location, ignoreCase = true)) &&
+            (maxPrice == null || it.pricePerDay <= maxPrice)
+        }
     }
 
     suspend fun addEquipment(equipment: Equipment): Boolean {
-        delay(500) // Simulate network delay
+        delay(300)
         val newId = (mockEquipment.size + 1).toString()
         mockEquipment.add(equipment.copy(id = newId))
         return true
