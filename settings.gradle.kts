@@ -22,6 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Tool Link"
+rootProject.name = "ToolLink"
 include(":app")
- 

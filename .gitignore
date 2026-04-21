@@ -13,3 +13,10 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Log files and crash dumps
+*.log
+replay_*
+
+# Misplaced manifest at root
+/AndroidManifest.xml
