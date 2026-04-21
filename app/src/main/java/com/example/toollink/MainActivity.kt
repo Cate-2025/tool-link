@@ -11,6 +11,7 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -68,6 +70,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -362,7 +365,7 @@ fun CategoryDetailScreen(category: Category, onBookNow: (Equipment) -> Unit) {
                         FilterChip(
                             selected = true,
                             onClick = { selectedLocation = null },
-                            label = { Text(selectedLocation!!) }
+                            label = { Text(selectedLocation ?: "") }
                         )
                     }
                 }
@@ -371,7 +374,7 @@ fun CategoryDetailScreen(category: Category, onBookNow: (Equipment) -> Unit) {
                         FilterChip(
                             selected = true,
                             onClick = { maxPrice = null },
-                            label = { Text("Max: UGX $maxPrice") }
+                            label = { Text("Max: UGX ${maxPrice ?: ""}") }
                         )
                     }
                 }
