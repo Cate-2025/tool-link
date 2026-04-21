@@ -29,7 +29,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -38,6 +37,8 @@ import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Groups
+import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocalShipping
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Pets
@@ -67,7 +68,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -81,7 +81,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.toollink.ui.screens.BookingHistoryScreen
+import com.example.toollink.ui.screens.PaymentScreen
 import com.example.toollink.ui.theme.ToolLinkTheme
+import com.google.firebase.auth.FirebaseAuth
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -91,12 +94,56 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ToolLinkTheme {
-                var isAuthenticated by remember { mutableStateOf(false) }
+                var isAuthenticated by remember { mutableStateOf(FirebaseAuth.getInstance().currentUser != null) }
+                var currentMainTab by remember { mutableStateOf("marketplace") }
+                var selectedEquipmentForPayment by remember { mutableStateOf<Equipment?>(null) }
 
-                if (isAuthenticated) {
-                    ToolLinkApp()
-                } else {
+                if (!isAuthenticated) {
                     AuthScreen(onAuthSuccess = { isAuthenticated = true })
+                } else {
+                    Scaffold(
+                        bottomBar = {
+                            NavigationBar {
+                                NavigationBarItem(
+                                    selected = currentMainTab == "marketplace",
+                                    onClick = { 
+                                        currentMainTab = "marketplace"
+                                        selectedEquipmentForPayment = null
+                                    },
+                                    icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
+                                    label = { Text("Home") }
+                                )
+                                NavigationBarItem(
+                                    selected = currentMainTab == "history",
+                                    onClick = { 
+                                        currentMainTab = "history"
+                                        selectedEquipmentForPayment = null
+                                    },
+                                    icon = { Icon(Icons.Default.History, contentDescription = "History") },
+                                    label = { Text("History") }
+                                )
+                            }
+                        }
+                    ) { innerPadding ->
+                        Box(modifier = Modifier.padding(innerPadding)) {
+                            when {
+                                selectedEquipmentForPayment != null -> {
+                                    PaymentScreen(onPaymentSuccess = {
+                                        selectedEquipmentForPayment = null
+                                        currentMainTab = "history"
+                                    })
+                                }
+                                currentMainTab == "marketplace" -> {
+                                    ToolLinkApp(onBookNow = { equipment ->
+                                        selectedEquipmentForPayment = equipment
+                                    })
+                                }
+                                currentMainTab == "history" -> {
+                                    BookingHistoryScreen()
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -113,7 +160,7 @@ data class Category(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ToolLinkApp() {
+fun ToolLinkApp(onBookNow: (Equipment) -> Unit) {
     val categories = listOf(
         Category(
             "Agriculture", Icons.Default.Agriculture,
@@ -149,61 +196,37 @@ fun ToolLinkApp() {
 
     var selectedIndex by remember { mutableIntStateOf(0) }
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        "ToolLink",
-                        style = MaterialTheme.typography.titleLarge.copy(
-                            fontWeight = FontWeight.Black,
-                            letterSpacing = 1.sp
+    Column(modifier = Modifier.fillMaxSize()) {
+        NavigationBar(
+            containerColor = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp
+        ) {
+            categories.forEachIndexed { index, category ->
+                val isSelected = selectedIndex == index
+                NavigationBarItem(
+                    selected = isSelected,
+                    onClick = { selectedIndex = index },
+                    icon = {
+                        Icon(
+                            category.icon,
+                            contentDescription = category.label,
+                            tint = if (isSelected) category.themeColor else MaterialTheme.colorScheme.onSurfaceVariant
                         )
+                    },
+                    label = {
+                        Text(
+                            category.label,
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                        )
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = category.themeColor.copy(alpha = 0.1f)
                     )
-                },
-                actions = {
-                    IconButton(onClick = { /* TODO: Search */ }) {
-                        Icon(Icons.Default.Search, contentDescription = "Search")
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface
                 )
-            )
-        },
-        bottomBar = {
-            NavigationBar(
-                containerColor = MaterialTheme.colorScheme.surface,
-                tonalElevation = 8.dp
-            ) {
-                categories.forEachIndexed { index, category ->
-                    val isSelected = selectedIndex == index
-                    NavigationBarItem(
-                        selected = isSelected,
-                        onClick = { selectedIndex = index },
-                        icon = {
-                            Icon(
-                                category.icon,
-                                contentDescription = category.label,
-                                tint = if (isSelected) category.themeColor else MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        },
-                        label = {
-                            Text(
-                                category.label,
-                                style = MaterialTheme.typography.labelSmall,
-                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
-                            )
-                        },
-                        colors = NavigationBarItemDefaults.colors(
-                            indicatorColor = category.themeColor.copy(alpha = 0.1f)
-                        )
-                    )
-                }
             }
         }
-    ) { innerPadding ->
+
         AnimatedContent(
             targetState = selectedIndex,
             transitionSpec = {
@@ -213,17 +236,17 @@ fun ToolLinkApp() {
                     (slideInHorizontally { -it } + fadeIn()) togetherWith (slideOutHorizontally { it } + fadeOut())
                 }
             },
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier.weight(1f),
             label = "CategoryTransition"
         ) { index ->
-            CategoryDetailScreen(categories[index])
+            CategoryDetailScreen(categories[index], onBookNow)
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CategoryDetailScreen(category: Category) {
+fun CategoryDetailScreen(category: Category, onBookNow: (Equipment) -> Unit) {
     val repository = remember { EquipmentRepository() }
     val equipmentList = remember { mutableStateListOf<Equipment>() }
     
@@ -363,7 +386,7 @@ fun CategoryDetailScreen(category: Category) {
             modifier = Modifier.weight(1f)
         ) {
             items(equipmentList) { equipment ->
-                EquipmentListItem(equipment, category.themeColor)
+                EquipmentListItem(equipment, category.themeColor, onBookNow)
             }
         }
     }
@@ -417,13 +440,14 @@ fun CategoryDetailScreen(category: Category) {
 }
 
 @Composable
-fun EquipmentListItem(equipment: Equipment, color: Color) {
+fun EquipmentListItem(equipment: Equipment, color: Color, onBookNow: (Equipment) -> Unit) {
     val formattedPrice = "UGX " + NumberFormat.getNumberInstance(Locale.US).format(equipment.pricePerDay)
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(130.dp),
+            .height(130.dp)
+            .clickable { onBookNow(equipment) },
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
