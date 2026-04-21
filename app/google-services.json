@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "440862439457",
+    "project_id": "tool-link-852f8",
+    "storage_bucket": "tool-link-852f8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440862439457:android:938f08006f5619d47d0b60",
+        "android_client_info": {
+          "package_name": "com.example.toollink"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxvpKWjc6JMKaJj734rwvfy9JUUTLfjpo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
