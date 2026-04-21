@@ -43,6 +43,7 @@ import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocalShipping
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
@@ -70,7 +71,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -84,6 +84,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.toollink.ui.owner.OwnerRegistrationScreen
 import com.example.toollink.ui.screens.BookingHistoryScreen
 import com.example.toollink.ui.screens.PaymentScreen
 import com.example.toollink.ui.theme.ToolLinkTheme
@@ -125,6 +126,15 @@ class MainActivity : ComponentActivity() {
                                     icon = { Icon(Icons.Default.History, contentDescription = "History") },
                                     label = { Text("History") }
                                 )
+                                NavigationBarItem(
+                                    selected = currentMainTab == "owner",
+                                    onClick = { 
+                                        currentMainTab = "owner"
+                                        selectedEquipmentForPayment = null
+                                    },
+                                    icon = { Icon(Icons.Default.Person, contentDescription = "Owner") },
+                                    label = { Text("Owner") }
+                                )
                             }
                         }
                     ) { innerPadding ->
@@ -143,6 +153,9 @@ class MainActivity : ComponentActivity() {
                                 }
                                 currentMainTab == "history" -> {
                                     BookingHistoryScreen()
+                                }
+                                currentMainTab == "owner" -> {
+                                    OwnerRegistrationScreen()
                                 }
                             }
                         }
