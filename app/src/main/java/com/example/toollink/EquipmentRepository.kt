@@ -4,7 +4,7 @@ import kotlinx.coroutines.delay
 
 class EquipmentRepository {
     private val mockEquipment = mutableListOf(
-        // Agriculture
+        // Agriculture (5 items)
         Equipment(
             id = "1",
             name = "John Deere 5050D",
@@ -45,8 +45,18 @@ class EquipmentRepository {
             location = "Jinja",
             imageUrl = "https://images.unsplash.com/photo-1590682680695-43b964a3ae17?auto=format&fit=crop&q=80&w=400"
         ),
+        Equipment(
+            id = "5",
+            name = "Grain Seeder",
+            category = "Agriculture",
+            subCategory = "Planters",
+            description = "Precision grain seeder for various crops.",
+            pricePerDay = 60000.0,
+            location = "Hoima",
+            imageUrl = "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&q=80&w=400"
+        ),
 
-        // Construction
+        // Construction (4 items)
         Equipment(
             id = "6",
             name = "Caterpillar 320 GC",
@@ -67,8 +77,28 @@ class EquipmentRepository {
             location = "Entebbe",
             imageUrl = "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=400"
         ),
+        Equipment(
+            id = "8",
+            name = "Jack Hammer",
+            category = "Construction",
+            subCategory = "Demolition",
+            description = "Powerful pneumatic jack hammer.",
+            pricePerDay = 40000.0,
+            location = "Kampala",
+            imageUrl = "https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&q=80&w=400"
+        ),
+        Equipment(
+            id = "21",
+            name = "Wheel Loader",
+            category = "Construction",
+            subCategory = "Loaders",
+            description = "Heavy duty wheel loader.",
+            pricePerDay = 350000.0,
+            location = "Mbarara",
+            imageUrl = "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=400"
+        ),
 
-        // Transport
+        // Transport (4 items)
         Equipment(
             id = "9",
             name = "Tata 407 Pickup",
@@ -89,8 +119,28 @@ class EquipmentRepository {
             location = "Masaka",
             imageUrl = "https://images.unsplash.com/photo-1558981403-c5f91cbba527?auto=format&fit=crop&q=80&w=400"
         ),
+        Equipment(
+            id = "22",
+            name = "Flatbed Truck",
+            category = "Transport",
+            subCategory = "Trucks",
+            description = "Medium flatbed truck for heavy loads.",
+            pricePerDay = 200000.0,
+            location = "Jinja",
+            imageUrl = "https://images.unsplash.com/photo-1586191128521-f2428198a00e?auto=format&fit=crop&q=80&w=400"
+        ),
+        Equipment(
+            id = "23",
+            name = "Tuk Tuk (Cargo)",
+            category = "Transport",
+            subCategory = "Three-Wheelers",
+            description = "Economical cargo transport for narrow streets.",
+            pricePerDay = 40000.0,
+            location = "Kampala",
+            imageUrl = "https://images.unsplash.com/photo-1519003300449-424ad040507b?auto=format&fit=crop&q=80&w=400"
+        ),
 
-        // Community
+        // Community (4 items)
         Equipment(
             id = "12",
             name = "Event Sound System",
@@ -111,8 +161,28 @@ class EquipmentRepository {
             location = "Iganga",
             imageUrl = "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=400"
         ),
+        Equipment(
+            id = "24",
+            name = "Projector & Screen",
+            category = "Community",
+            subCategory = "Electronics",
+            description = "High brightness projector for outdoor movies/meetings.",
+            pricePerDay = 50000.0,
+            location = "Entebbe",
+            imageUrl = "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&q=80&w=400"
+        ),
+        Equipment(
+            id = "25",
+            name = "Folding Chairs (Set of 50)",
+            category = "Community",
+            subCategory = "Furniture",
+            description = "Durable folding chairs for events.",
+            pricePerDay = 30000.0,
+            location = "Kampala",
+            imageUrl = "https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?auto=format&fit=crop&q=80&w=400"
+        ),
 
-        // Livestock
+        // Livestock (4 items)
         Equipment(
             id = "15",
             name = "Milk Cooler",
@@ -142,6 +212,16 @@ class EquipmentRepository {
             pricePerDay = 20000.0,
             location = "Fort Portal",
             imageUrl = "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&q=80&w=400"
+        ),
+        Equipment(
+            id = "26",
+            name = "Egg Incubator",
+            category = "Livestock",
+            subCategory = "Poultry",
+            description = "Automatic egg incubator (200 eggs capacity).",
+            pricePerDay = 30000.0,
+            location = "Lira",
+            imageUrl = "https://images.unsplash.com/photo-1582722134054-2051d9005d54?auto=format&fit=crop&q=80&w=400"
         )
     )
 
