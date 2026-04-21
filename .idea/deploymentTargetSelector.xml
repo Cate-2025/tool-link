@@ -5,18 +5,6 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-<<<<<<< HEAD
-      <SelectionState runConfigName="ToolLink.app">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-=======
-<<<<<<< HEAD
-=======
-      <SelectionState runConfigName="New Run Config">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
->>>>>>> origin/ownerregistration
->>>>>>> 1da03c32b30f127ce9984b24b023c9a9ddedd37b
     </selectionStates>
   </component>
 </project>
