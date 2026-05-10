@@ -1,0 +1,34 @@
+TOOL LINK PROJECT - GROUP SUBMISSION DETAILS
+
+GROUP MEMBERS:
+
+1. Name: NAWONGA CATHERINE
+   Reg Number: 24/U/09989/PS
+   Student Number: 2400709989
+   Contact: 0743555161
+
+2. Name: NASSANGA MOUREEN
+   Reg Number: 24/U/1474
+   Student Number: 2400701474
+   Contact: 0758014386
+
+3. Name: NAKALEMBE JOSEPHINE
+   Reg Number: 23/U/1009
+   Student Number: 2300701009
+   Contact: 0742279993
+
+4. Name: YUL LAM GATKUOTH
+   Reg Number: 24/E/25734/PS
+   Student Number: 2400725734
+   Contact: 0766644756
+
+5. Name: MUSA MALI DERICK
+   Reg Number: 24/U/26588/EVE
+   Student Number: 2400726588
+   Contact: 0752140620
+
+GITHUB REPOSITORY LINK:
+https://github.com/Cate-2025/tool-link.git
+
+Built APK Location in Repo:
+app/build/outputs/apk/debug/app-debug.apk
